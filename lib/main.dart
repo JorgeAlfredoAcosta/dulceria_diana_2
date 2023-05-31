@@ -1,11 +1,14 @@
-import 'package:flutter/gestures.dart';
+import 'package:dulceria_d_i_a_n_a_3/servicios/servicios_firebase.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+//import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 
@@ -13,6 +16,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await FlutterFlowTheme.initialize();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await deleteProductosCarrito();
 
   runApp(MyApp());
 }
@@ -66,6 +75,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: _themeMode,
       routeInformationParser: _router.routeInformationParser,
       routerDelegate: _router.routerDelegate,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

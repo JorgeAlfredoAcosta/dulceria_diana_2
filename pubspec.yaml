@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  firebase_core: ^2.8.0
+  cloud_firestore: ^4.4.5
   auto_size_text: 3.0.0
   cached_network_image: 3.2.1
   flutter_animate: 4.1.1+1

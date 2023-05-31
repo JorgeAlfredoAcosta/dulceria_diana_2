@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:provider/provider.dart';
 import 'acerca_de_model.dart';
 export 'acerca_de_model.dart';
 
@@ -81,7 +81,7 @@ class _AcercaDeWidgetState extends State<AcercaDeWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                   child: Text(
-                    'Bienvenido(a), esta es una aplicación que sirve como inventario para una dulcería, además de que permite realizar compras a los visitantes que accedan a ella.',
+                    'Bienvenido(a), esta es una aplicación de ventas para una dulcería que permite realizar compras a los visitantes que accedan a ella.',
                     textAlign: TextAlign.justify,
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Poppins',
@@ -92,8 +92,8 @@ class _AcercaDeWidgetState extends State<AcercaDeWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                   child: Image.network(
-                    'https://picsum.photos/seed/19/600',
-                    width: 200.0,
+                    'https://firebasestorage.googleapis.com/v0/b/ejemplo-2023-i.appspot.com/o/Dulces.jpg?alt=media&token=706456cc-0fb2-4e3e-85c4-27f5380838af',
+                    width: 300.0,
                     height: 200.0,
                     fit: BoxFit.contain,
                   ),

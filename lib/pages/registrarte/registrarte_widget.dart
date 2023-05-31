@@ -1,9 +1,11 @@
+import 'package:dulceria_d_i_a_n_a_3/servicios/servicios_firebase.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:provider/provider.dart';
 import 'registrarte_model.dart';
 export 'registrarte_model.dart';
 
@@ -19,6 +21,10 @@ class _RegistrarteWidgetState extends State<RegistrarteWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
+
+  TextEditingController nombreController = TextEditingController(text: '');
+  TextEditingController correoController = TextEditingController(text: '');
+  TextEditingController contrasenaController = TextEditingController(text: '');
 
   @override
   void initState() {
@@ -95,7 +101,7 @@ class _RegistrarteWidgetState extends State<RegistrarteWidget> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: TextFormField(
-                    controller: _model.textController1,
+                    controller: nombreController,
                     autofocus: true,
                     obscureText: false,
                     decoration: InputDecoration(
@@ -158,7 +164,7 @@ class _RegistrarteWidgetState extends State<RegistrarteWidget> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: TextFormField(
-                    controller: _model.textController2,
+                    controller: correoController,
                     autofocus: true,
                     obscureText: false,
                     decoration: InputDecoration(
@@ -222,7 +228,7 @@ class _RegistrarteWidgetState extends State<RegistrarteWidget> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: TextFormField(
-                    controller: _model.textController3,
+                    controller: contrasenaController,
                     autofocus: true,
                     obscureText: !_model.passwordVisibility,
                     decoration: InputDecoration(
@@ -286,8 +292,19 @@ class _RegistrarteWidgetState extends State<RegistrarteWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
                 child: FFButtonWidget(
-                  onPressed: () {
+                  onPressed: () async {
                     print('Button pressed ...');
+                    Future<bool> res = addUsuarios(nombreController.text, correoController.text, contrasenaController.text);
+                    if(await res) {
+                      showSnackbar(
+                          context,
+                          'Se ha agregado correctamente y se ha iniciado sesión'
+                      );
+                    } else {
+                      showSnackbar(
+                          context,
+                          'Se ha producido un error, intentelo más tarde');
+                    }
                   },
                   text: 'Registrarte',
                   options: FFButtonOptions(

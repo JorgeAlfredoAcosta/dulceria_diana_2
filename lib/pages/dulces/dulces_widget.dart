@@ -1,9 +1,11 @@
+import 'package:dulceria_d_i_a_n_a_3/servicios/servicios_firebase.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:provider/provider.dart';
 import 'dulces_model.dart';
 export 'dulces_model.dart';
 
@@ -62,250 +64,130 @@ class _DulcesWidgetState extends State<DulcesWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            scrollDirection: Axis.vertical,
-            children: [
-              Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
-                child: Text(
-                  'Dulces',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    'https://picsum.photos/seed/817/600',
-                    width: 300.0,
-                    height: 200.0,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Nombre del producto',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Descripción',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Precio',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 20.0),
-                  child: FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
-                    },
-                    text: 'Agregar al carrito',
-                    options: FFButtonOptions(
-                      width: 130.0,
-                      height: 40.0,
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: Color(0xFF1DF94C),
-                      textStyle:
-                          FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Poppins',
-                                color: Colors.black,
-                                fontSize: 20.0,
+          child: FutureBuilder<List>(
+            future: getProductosDulces(),
+            builder: ((context, snapshot) {
+              if(snapshot.hasData) {
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 20.0, 0.0, 0.0
+                          ),
+                          child: Image.network(
+                            snapshot.data?[index]['imagen'],
+                            width: 200.0,
+                            height: 225.0,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              10.0, 0.0, 10.0, 0.0
+                          ),
+                          child: Text(
+                            snapshot.data?[index]['nombre'],
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.of(
+                                context).bodyMedium.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              10.0, 0.0, 10.0, 0.0
+                          ),
+                          child: Text(
+                            snapshot.data?[index]['descripcion'],
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.of(
+                                context).bodyMedium.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              10.0, 0.0, 10.0, 0.0
+                          ),
+                          child: Text(
+                            'Precio: ' + snapshot.data?[index]['precio'] + ' MXN',
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.of(
+                                context).bodyMedium.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 5.0, 0.0, 20.0
+                            ),
+                            child: FFButtonWidget(
+                              onPressed: () {
+                                print('Button pressed ...');
+                                if(int.parse(snapshot.data?[index]['inventario']) > 0) {
+                                  addProductoEnCarrito(
+                                      snapshot.data?[index]['nombre'],
+                                      snapshot.data?[index]['precio']);
+                                  showSnackbar(
+                                      context,
+                                      'El producto se ha agregado al carrito'
+                                  );
+                                } else {
+                                  showSnackbar(context, 'Inventario agotado');
+                                }
+                              },
+                              text: 'Agregar al carrito',
+                              options: FFButtonOptions(
+                                width: 130.0,
+                                height: 40.0,
+                                padding:
+                                EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0
+                                ),
+                                iconPadding:
+                                EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0
+                                ),
+                                color: Color(0xFF1DF94C),
+                                textStyle:
+                                FlutterFlowTheme.of(
+                                    context).titleSmall.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.black,
+                                  fontSize: 20.0,
+                                ),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                      elevation: 3.0,
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  'https://picsum.photos/seed/689/600',
-                  width: 300.0,
-                  height: 200.0,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Nombre del producto',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Descripción',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Precio',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 20.0),
-                  child: FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
-                    },
-                    text: 'Agregar al carrito',
-                    options: FFButtonOptions(
-                      width: 130.0,
-                      height: 40.0,
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: Color(0xFF1DF94C),
-                      textStyle:
-                          FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Poppins',
-                                color: Colors.black,
-                                fontSize: 20.0,
-                              ),
-                      elevation: 3.0,
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  'https://picsum.photos/seed/208/600',
-                  width: 300.0,
-                  height: 200.0,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Nombre del producto',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Descripción',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                child: Text(
-                  'Precio',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20.0,
-                      ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 20.0),
-                  child: FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
-                    },
-                    text: 'Agregar al carrito',
-                    options: FFButtonOptions(
-                      width: 130.0,
-                      height: 40.0,
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: Color(0xFF1DF94C),
-                      textStyle:
-                          FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Poppins',
-                                color: Colors.black,
-                                fontSize: 20.0,
-                              ),
-                      elevation: 3.0,
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
           ),
         ),
       ),

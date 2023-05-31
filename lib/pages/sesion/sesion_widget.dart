@@ -1,9 +1,11 @@
+import 'package:dulceria_d_i_a_n_a_3/servicios/servicios_firebase.dart';
+
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:provider/provider.dart';
 import 'sesion_model.dart';
 export 'sesion_model.dart';
 
@@ -19,6 +21,9 @@ class _SesionWidgetState extends State<SesionWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
+
+  TextEditingController correoController = TextEditingController(text: '');
+  TextEditingController contrasenaController = TextEditingController(text: '');
 
   @override
   void initState() {
@@ -92,7 +97,8 @@ class _SesionWidgetState extends State<SesionWidget> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextFormField(
-                  controller: _model.textController1,
+                  //controller: _model.textController1,
+                  controller: correoController,
                   autofocus: true,
                   obscureText: false,
                   decoration: InputDecoration(
@@ -154,7 +160,8 @@ class _SesionWidgetState extends State<SesionWidget> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextFormField(
-                  controller: _model.textController2,
+                  //controller: _model.textController2,
+                  controller: contrasenaController,
                   autofocus: true,
                   obscureText: !_model.passwordVisibility,
                   decoration: InputDecoration(
@@ -215,8 +222,14 @@ class _SesionWidgetState extends State<SesionWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
                 child: FFButtonWidget(
-                  onPressed: () {
+                  onPressed: () async {
                     print('Button pressed ...');
+                    Future<bool> res = getUsuario(correoController.text, contrasenaController.text);
+                    if(await res) {
+                      showSnackbar(context, 'Sesión iniciada');
+                    } else {
+                      showSnackbar(context, 'El correo o la contraseña son incorrectos');
+                    }
                   },
                   text: 'Iniciar sesión',
                   options: FFButtonOptions(
